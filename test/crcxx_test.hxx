@@ -1,10 +1,10 @@
 #ifndef HXX_CRC_TEST
 #define HXX_CRC_TEST
 
+#include <crcxx/catalog>
+#include <crcxx/lib>
 #include <stdio.h>
 #include <string>
-
-#include "crcxx/detail/types.hxx"
 
 std::string check = "123456789";
 

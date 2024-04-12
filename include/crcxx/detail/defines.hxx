@@ -30,7 +30,7 @@
 #if CRCXX_STDCXX_VERSION_CHECK(201103)
 #define CRCXX_NOEXCEPT noexcept
 #else
-#define CRCXX_NOEXCEPT
+#define CRCXX_NOEXCEPT throw()
 #endif
 
 #if defined(__cpp_constexpr)

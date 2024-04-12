@@ -1,8 +1,8 @@
 #ifndef HXX_CRCXX_DETAIL_REV
 #define HXX_CRCXX_DETAIL_REV
 
-#include "defines.hxx"
-#include "types.hxx"
+#include "crcxx/detail/defines.hxx"
+#include "crcxx/detail/types.hxx"
 
 namespace crc { namespace detail {
 static CRCXX_CONSTEXPR_14 uint8_t rev(uint8_t x) CRCXX_NOEXCEPT {

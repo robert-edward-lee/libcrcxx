@@ -1,90 +1,25 @@
-LIB = crc
-STATICLIB = $(BUILDDIR)/lib$(LIB).a
-SHAREDLIB = $(BUILDDIR)/lib$(LIB).dll
-IMPLIB = $(BUILDDIR)/lib$(LIB).dll.a
+INCLUDE_DIR = include
 
-TOOLCHAIN_PREFIX =
-CC = $(TOOLCHAIN_PREFIX)gcc
-CFLAGS =
-LD = $(CC)
-LDFLAGS =
-AR = $(TOOLCHAIN_PREFIX)ar
-ARFLAGS = rcs
-STRIP = $(TOOLCHAIN_PREFIX)strip
+TEST_DIR = test
 
-BUILDDIR = build/$(TOOLCHAIN_PREFIX)
-SRCDIRS = src
-INCDIRS = include src
+WORK_DIRS = $(sort . $(TEST_DIR)/ $(INCLUDE_DIR)/ $(dir $(wildcard $(INCLUDE_DIR)/*/) $(wildcard $(INCLUDE_DIR)/*/*/)))
 
-DEFINES =
-OPTFLAGS =
-# OPTFLAGS += -ffunction-sections
-# OPTFLAGS += -fdata-sections
-WARNFLAGS = -Wall -Wextra -pedantic
-DEPENDFLAGS = -MMD -MP
-
-ifeq ($(DEBUG),1)
-OPTFLAGS += -Og -g
-else
-OPTFLAGS += -O2
-DEFINES += NDEBUG
-endif
-
-CFLAGS += $(addprefix -D,$(DEFINES))
-CFLAGS += $(addprefix -I,$(INCDIRS))
-CFLAGS += $(WARNFLAGS)
-CFLAGS += $(OPTFLAGS)
-CFLAGS += $(DEPENDFLAGS)
-CFLAGS += $(EXTRAFLAGS)
-
-VPATH = $(BUILDDIR):$(subst $() $(),:,$(SRCDIRS)):$(subst $() $(),:,$(INCDIRS))
-SOURCES = $(wildcard $(SRCDIRS)/*.c)
-OBJECTS = $(addprefix $(BUILDDIR)/,$(notdir $(patsubst %.c,%.o,$(SOURCES))))
-DEPENDS = $(patsubst %.o,%.d,$(OBJECTS))
--include $(DEPENDS)
-
-include test/test.mk
-
-.DEFAULT_GOAL = all
-
-all: static shared
-
-static: $(BUILDDIR) $(STATICLIB)
-
-shared: $(BUILDDIR) $(SHAREDLIB)
-
-$(STATICLIB): $(OBJECTS)
-	@$(AR) $(ARFLAGS) $@ $^
-	@echo '  AR      ' $@
-
-$(SHAREDLIB): $(OBJECTS)
-	@$(CC) -shared -Wl,--out-implib,$(IMPLIB) $(LDFLAGS) -o $@ $^
-	@echo '  CC      ' $@
-	@$(STRIP) $@
-	@echo '  STRIP   ' $@
-
-$(IMPLIB): $(SHAREDLIB)
-
-$(BUILDDIR)/%.o: %.c
-	@$(CC) -c $(CFLAGS) -o $@ $<
-	@echo '  CC      ' $@
-
-$(BUILDDIR):
-	@mkdir -p $@
 
 clean:
-	@rm -rf $(BUILDDIR)
-
-dox:
-	@mkdir -p doc
-	@doxygen doxyfile
+	@$(RM) \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.a,$(dir))) \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.d,$(dir))) \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.dll,$(dir))) \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.exe,$(dir))) \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.o,$(dir))) \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.obj,$(dir))) \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.tds,$(dir)))
 
 format:
 	@clang-format \
-		-style=file:.clang-format \
-		-i $(wildcard src/*.c) $(wildcard src/*.h) \
-		$(wildcard test/*.c) $(wildcard test/*.h) \
-		$(wildcard include/crc/*.h) \
-		$(wildcard include/crcxx/*.hxx) \
-		$(wildcard include/crcxx/detail/*.hxx) \
-		$(wildcard test/*.hxx) $(wildcard test/*.cxx)
+		-style=file:.clang-format -i \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.hxx,$(dir))) \
+		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.cxx,$(dir))) \
+		2> /dev/null ||:
+
+include $(TEST_DIR)/test.mk

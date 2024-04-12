@@ -1,6 +1,4 @@
 #include "crcxx_test.hxx"
-#include "crcxx/catalog.hxx"
-#include "crcxx/lib.hxx"
 
 int errors = 0;
 int passed = 0;

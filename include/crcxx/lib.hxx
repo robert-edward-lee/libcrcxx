@@ -1,10 +1,10 @@
 #ifndef HXX_CRCXX_LIB
 #define HXX_CRCXX_LIB
 
-#include "detail/defines.hxx"
-#include "detail/rev.hxx"
-#include "detail/traits.hxx"
-#include "detail/types.hxx"
+#include "crcxx/detail/defines.hxx"
+#include "crcxx/detail/rev.hxx"
+#include "crcxx/detail/traits.hxx"
+#include "crcxx/detail/types.hxx"
 
 namespace crc {
 template<typename ValueType,
@@ -16,10 +16,9 @@ template<typename ValueType,
          ValueType XorOut,
          ValueType Check>
 class Crc {
-    CRCXX_STATIC_ASSERT(detail::is_valid_crc_type<ValueType>::value,
-                        "ValueType must be valid: uint[8, 16, 32, 64, 128]_t");
+    CRCXX_STATIC_ASSERT(detail::is_valid_crc_type<ValueType>::value, "ValueType must be valid");
     CRCXX_STATIC_ASSERT(Width, "Width can not be a 0");
-    CRCXX_STATIC_ASSERT(Width <= 8 * sizeof(ValueType), "Crc Width can not exceed the bitwidth of ValueType");
+    CRCXX_STATIC_ASSERT((Width <= 8 * sizeof(ValueType)), "Crc Width can not exceed the bitwidth of ValueType");
 
 public:
     typedef ValueType type;
@@ -105,9 +104,6 @@ public:
     }
 
 private:
-    Crc(const Crc &);
-    Crc &operator=(const Crc &);
-
     static CRCXX_CONSTEXPR type fit_value(type value) CRCXX_NOEXCEPT {
         return refin ? detail::rev(value) >> (real_width - width) : value << (real_width - width);
     }

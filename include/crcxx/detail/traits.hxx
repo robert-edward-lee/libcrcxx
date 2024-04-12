@@ -1,8 +1,12 @@
 #ifndef HXX_CXX_DETAIL_TRAITS
 #define HXX_CXX_DETAIL_TRAITS
 
-#include "defines.hxx"
-#include "types.hxx"
+#if CRCXX_STDCXX_VERSION_CHECK(201103)
+#include <type_traits>
+#endif
+
+#include "crcxx/detail/defines.hxx"
+#include "crcxx/detail/types.hxx"
 
 namespace crc { namespace detail {
 #if CRCXX_STDCXX_VERSION_CHECK(201103)
@@ -44,7 +48,8 @@ template<typename T> struct remove_cv<const volatile T> {
 
 template<typename> struct is_byte: false_type {};
 template<> struct is_byte<char>: true_type {};
-template<> struct is_byte<uint8_t>: true_type {};
+template<> struct is_byte<signed char>: true_type {};
+template<> struct is_byte<unsigned char>: true_type {};
 
 template<typename T> struct is_valid_crc_type_helper: false_type {};
 template<> struct is_valid_crc_type_helper<uint8_t>: true_type {};

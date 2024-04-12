@@ -1,9 +1,10 @@
 #ifndef HXX_CRCXX_DETAIL_TYPES
 #define HXX_CRCXX_DETAIL_TYPES
 
-#include "defines.hxx"
+#include "crcxx/detail/defines.hxx"
 
 #if CRCXX_STDCXX_VERSION_CHECK(201103)
+#include <cstddef>
 #include <cstdint>
 #else
 #include <stddef.h>

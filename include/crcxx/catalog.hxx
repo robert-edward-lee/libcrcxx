@@ -5,7 +5,7 @@
 */
 #ifndef HXX_CRCXX_CATALOG
 #define HXX_CRCXX_CATALOG
-#include "detail/types.hxx"
+#include "crcxx/detail/types.hxx"
 // clang-format off
 namespace crc {
 template<typename ValueType, size_t Width, ValueType Poly, ValueType Init, bool RefIn, bool RefOut, ValueType XorOut, ValueType Check> class Crc;
