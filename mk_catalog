@@ -82,15 +82,15 @@ class Algo(object):
         ret = f'typedef Crc<'
 
         if self.actual_width == 8:
-            ret += ' uint8_t, '
+            ret += ' u8, '
         elif self.actual_width == 16:
-            ret += 'uint16_t, '
+            ret += 'u16, '
         elif self.actual_width == 32:
-            ret += 'uint32_t, '
+            ret += 'u32, '
         elif self.actual_width == 64:
-            ret += 'uint64_t, '
+            ret += 'u64, '
         elif self.actual_width == 128:
-            ret += 'uint128_t, '
+            ret += 'u128, '
         else:
             return None
 
@@ -99,52 +99,53 @@ class Algo(object):
         if self.actual_width == 128:
             ret += f'{self.width:>3},'
 
-            ret += f' (uint128_t)0x{self.poly >> 96:08X} << 96 |'
-            ret += f' (uint128_t)0x{(self.poly >> 64) & mask:08X} << 64 |'
-            ret += f' (uint128_t)0x{(self.poly >> 32) & mask:08X} << 32 |'
-            ret += f' 0x{self.poly & mask:08X},\n'
+            ret += f' CRCXX_UINT128_C(0x{self.poly >> 96:08X},'
+            ret += f' 0x{(self.poly >> 64) & mask:08X},'
+            ret += f' 0x{(self.poly >> 32) & mask:08X},'
+            ret += f' 0x{self.poly & mask:08X}),\n'
 
-            ret += f'{' ':27}'
-            ret += f' (uint128_t)0x{self.init >> 96:08X} << 96 |'
-            ret += f' (uint128_t)0x{(self.init >> 64) & mask:08X} << 64 |'
-            ret += f' (uint128_t)0x{(self.init >> 32) & mask:08X} << 32 |'
-            ret += f' 0x{self.init & mask:08X},\n'
+            ret += f'{' ':22}'
+            ret += f' CRCXX_UINT128_C(0x{self.init >> 96:08X},'
+            ret += f' 0x{(self.init >> 64) & mask:08X},'
+            ret += f' 0x{(self.init >> 32) & mask:08X},'
+            ret += f' 0x{self.init & mask:08X}),\n'
 
-            ret += f'{' ':27}'
+            ret += f'{' ':22}'
             ret += f' {str(self.refin).lower()}, {str(self.refout).lower()},\n'
 
-            ret += f'{' ':27}'
-            ret += f' (uint128_t)0x{self.xorout >> 96:08X} << 96 |'
-            ret += f' (uint128_t)0x{(self.xorout >> 64) & mask:08X} << 64 |'
-            ret += f' (uint128_t)0x{(self.xorout >> 32) & mask:08X} << 32 |'
-            ret += f' 0x{self.xorout & mask:08X},\n'
+            ret += f'{' ':22}'
+            ret += f' CRCXX_UINT128_C(0x{self.xorout >> 96:08X},'
+            ret += f' 0x{(self.xorout >> 64) & mask:08X},'
+            ret += f' 0x{(self.xorout >> 32) & mask:08X},'
+            ret += f' 0x{self.xorout & mask:08X}),\n'
+
+            ret += f'{' ':22}'
+            ret += f' CRCXX_UINT128_C(0x{self.check >> 96:08X},'
+            ret += f' 0x{(self.check >> 64) & mask:08X},'
+            ret += f' 0x{(self.check >> 32) & mask:08X},'
+            ret += f' 0x{self.check & mask:08X})>'
 
             ret += f'{' ':27}'
-            ret += f' (uint128_t)0x{self.check >> 96:08X} << 96 |'
-            ret += f' (uint128_t)0x{(self.check >> 64) & mask:08X} << 64 |'
-            ret += f' (uint128_t)0x{(self.check >> 32) & mask:08X} << 32 |'
-            ret += f' 0x{self.check & mask:08X}>'
-
             ret += f' {self.name};\n'
         elif self.actual_width == 64:
             ret += f'{self.width:>2},'
 
-            ret += f' (uint64_t)0x{self.poly >> 32:08X} << 32 |'
-            ret += f' 0x{self.poly & mask:08X},'
+            ret += f' CRCXX_UINT64_C(0x{self.poly >> 32:08X},'
+            ret += f' 0x{self.poly & mask:08X}),'
 
-            ret += f' (uint64_t)0x{self.init >> 32:08X} << 32 |'
-            ret += f' 0x{self.init & mask:08X},\n'
+            ret += f' CRCXX_UINT64_C(0x{self.init >> 32:08X},'
+            ret += f' 0x{self.init & mask:08X}),'
 
-            ret += f'{' ':{11 + self.refin + self.refout}}'
-            ret += f' {str(self.refin).lower()}, {str(self.refout).lower()},'
+            ret += f' {str(self.refin).lower()}, {str(self.refout).lower()},\n'
+            ret += f'{' ':20}'
 
-            ret += f' (uint64_t)0x{self.xorout >> 32:08X} << 32 |'
-            ret += f' 0x{self.xorout & mask:08X},'
+            ret += f' CRCXX_UINT64_C(0x{self.xorout >> 32:08X},'
+            ret += f' 0x{self.xorout & mask:08X}),'
 
-            ret += f' (uint64_t)0x{self.check >> 32:08X} << 32 |'
-            ret += f' 0x{self.check & mask:08X}>'
+            ret += f' CRCXX_UINT64_C(0x{self.check >> 32:08X},'
+            ret += f' 0x{self.check & mask:08X})>'
 
-            ret += f'{' ':12}'
+            ret += f'{' ':14}'
             ret += f' {self.name};\n'
         else:
             ret += f'{self.width:>2},'
@@ -167,7 +168,7 @@ class Algo(object):
             ret += f' {self.name};\n'
 
         for alias in self.aliases:
-            ret += f'typedef {self.name} {alias:>{111 -
+            ret += f'typedef {self.name} {alias:>{106 -
                                                   len(self.name) + len(alias)}};\n'
 
         return ret
@@ -224,7 +225,7 @@ CXX_BEGIN = rf"""/**
 // clang-format off
 namespace crc {{
 template<typename ValueType, size_t Width, ValueType Poly, ValueType Init, bool RefIn, bool RefOut, ValueType XorOut, ValueType Check> class Crc;
-//        ValueType  Width              Poly                Init  RefIn RefOut              XorOut               Check
+//     ValueType Width             Poly                Init  RefIn RefOut              XorOut               Check
 """
 
 CXX_END = r"""} // namespace crc

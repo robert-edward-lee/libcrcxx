@@ -10,7 +10,6 @@
 
 namespace crc { namespace detail {
 #if CRCXX_STDCXX_VERSION_CHECK(201103)
-#include <type_traits>
 using std::true_type;
 using std::false_type;
 using std::enable_if;
@@ -52,12 +51,12 @@ template<> struct is_byte<signed char>: true_type {};
 template<> struct is_byte<unsigned char>: true_type {};
 
 template<typename T> struct is_valid_crc_type_helper: false_type {};
-template<> struct is_valid_crc_type_helper<uint8_t>: true_type {};
-template<> struct is_valid_crc_type_helper<uint16_t>: true_type {};
-template<> struct is_valid_crc_type_helper<uint32_t>: true_type {};
-template<> struct is_valid_crc_type_helper<uint64_t>: true_type {};
+template<> struct is_valid_crc_type_helper<u8>: true_type {};
+template<> struct is_valid_crc_type_helper<u16>: true_type {};
+template<> struct is_valid_crc_type_helper<u32>: true_type {};
+template<> struct is_valid_crc_type_helper<u64>: true_type {};
 #if CRCXX_HAS_128BIT_ALGO
-template<> struct is_valid_crc_type_helper<uint128_t>: true_type {};
+template<> struct is_valid_crc_type_helper<u128>: true_type {};
 #endif
 template<typename T> struct is_valid_crc_type: is_valid_crc_type_helper<typename remove_cv<T>::type> {};
 }} // namespace crc::detail
