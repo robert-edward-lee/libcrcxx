@@ -10,6 +10,9 @@
 #define CRCXX_DO_STR(s) #s
 #define CRCXX_STR(s) CRCXX_DO_STR(s)
 
+////////////////////////////////////////////////////////////////////////////////
+//                          Language Standard Detect                          //
+////////////////////////////////////////////////////////////////////////////////
 #if defined(__cplusplus)
 #if defined(_MSC_VER)
 #define CRCXX_STDCXX_VERSION_CHECK(v) (_MSVC_LANG >= (v))
@@ -20,22 +23,9 @@
 #define CRCXX_STDCXX_VERSION_CHECK(v) 0
 #endif
 
-#if !defined(__has_builtin)
-#define __has_builtin(x) 0
-#endif
-
-#if __has_builtin(__builtin_convertvector) && defined(__clang__)
-#define CRCXX_HAS_BUILTIN_BITREVERSE 1
-#else
-#define CRCXX_HAS_BUILTIN_BITREVERSE 0
-#endif
-
-#if defined(__SIZEOF_INT128__)
-#define CRCXX_HAS_GNUC_INT128 1
-#else
-#define CRCXX_HAS_GNUC_INT128 0
-#endif
-
+////////////////////////////////////////////////////////////////////////////////
+//                           Language Feature-Test                            */
+////////////////////////////////////////////////////////////////////////////////
 #if CRCXX_STDCXX_VERSION_CHECK(201103)
 #define CRCXX_NOEXCEPT noexcept
 #else
@@ -67,6 +57,25 @@
 #else
 #define CRCXX_MAKE_ASSERT_NAME(a) CRCXX_CONCAT(a, __COUNTER__)
 #define CRCXX_STATIC_ASSERT(expr, msg) typedef char CRCXX_MAKE_ASSERT_NAME(CRCXX_STATIC_ASSERTION_)[(expr) ? 1 : -1]
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+//                            Compiler Intrinsics                             //
+////////////////////////////////////////////////////////////////////////////////
+#if !defined(__has_builtin)
+#define __has_builtin(x) 0
+#endif
+
+#if __has_builtin(__builtin_convertvector) && defined(__clang__)
+#define CRCXX_HAS_BUILTIN_BITREVERSE 1
+#else
+#define CRCXX_HAS_BUILTIN_BITREVERSE 0
+#endif
+
+#if defined(__SIZEOF_INT128__)
+#define CRCXX_HAS_GNUC_INT128 1
+#else
+#define CRCXX_HAS_GNUC_INT128 0
 #endif
 
 #endif // HXX_CXX_DETAIL_DEFINES

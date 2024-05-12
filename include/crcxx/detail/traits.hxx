@@ -1,11 +1,11 @@
 #ifndef HXX_CXX_DETAIL_TRAITS
 #define HXX_CXX_DETAIL_TRAITS
 
+#include "crcxx/detail/defines.hxx"
 #if CRCXX_STDCXX_VERSION_CHECK(201103)
 #include <type_traits>
 #endif
 
-#include "crcxx/detail/defines.hxx"
 #include "crcxx/detail/types.hxx"
 
 namespace crc { namespace detail {

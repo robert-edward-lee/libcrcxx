@@ -21,27 +21,27 @@ class Crc {
     CRCXX_STATIC_ASSERT((Width <= 8 * sizeof(ValueType)), "Crc Width can not exceed the bitwidth of ValueType");
 
 public:
-    typedef ValueType type;
+    typedef ValueType value_type;
 
-    static CRCXX_CONST_OR_CONSTEXPR size_t real_width = 8 * sizeof(type);
+    static CRCXX_CONST_OR_CONSTEXPR size_t real_width = 8 * sizeof(value_type);
     static CRCXX_CONST_OR_CONSTEXPR size_t width = Width;
-    static CRCXX_CONST_OR_CONSTEXPR type poly = Poly;
-    static CRCXX_CONST_OR_CONSTEXPR type init = Init;
+    static CRCXX_CONST_OR_CONSTEXPR value_type poly = Poly;
+    static CRCXX_CONST_OR_CONSTEXPR value_type init = Init;
     static CRCXX_CONST_OR_CONSTEXPR bool refin = RefIn;
     static CRCXX_CONST_OR_CONSTEXPR bool refout = RefOut;
-    static CRCXX_CONST_OR_CONSTEXPR type xorout = XorOut;
-    static CRCXX_CONST_OR_CONSTEXPR type check = Check;
+    static CRCXX_CONST_OR_CONSTEXPR value_type xorout = XorOut;
+    static CRCXX_CONST_OR_CONSTEXPR value_type check = Check;
 
-    Crc(void): m_value(fit_value(init)), m_table(new type[256]) {
+    Crc(): m_value(fit_value(init)), m_table(new value_type[256]) {
         table_init();
     }
 
-    ~Crc(void) CRCXX_NOEXCEPT {
+    ~Crc() CRCXX_NOEXCEPT {
         delete[] m_table;
     }
 
-    CRCXX_CONSTEXPR_14 type finalize(void) CRCXX_NOEXCEPT {
-        type ret = m_value;
+    CRCXX_CONSTEXPR_14 value_type finalize() CRCXX_NOEXCEPT {
+        value_type ret = m_value;
         m_value = fit_value(init);
 
         CRCXX_IF_CONSTEXPR(refin != refout) {
@@ -66,12 +66,12 @@ public:
         }
     }
     template<typename T>
-    typename detail::enable_if<detail::is_byte<T>::value, type>::type checksum(T byte) CRCXX_NOEXCEPT {
+    typename detail::enable_if<detail::is_byte<T>::value, value_type>::type checksum(T byte) CRCXX_NOEXCEPT {
         update(byte);
         return finalize();
     }
     template<typename T>
-    typename detail::enable_if<detail::is_byte<T>::value, type>::type operator()(T byte) CRCXX_NOEXCEPT {
+    typename detail::enable_if<detail::is_byte<T>::value, value_type>::type operator()(T byte) CRCXX_NOEXCEPT {
         return checksum(byte);
     }
 
@@ -84,31 +84,31 @@ public:
             update(*byte);
         }
     }
-    type checksum(const void *begin, const void *end) CRCXX_NOEXCEPT {
+    value_type checksum(const void *begin, const void *end) CRCXX_NOEXCEPT {
         update(begin, end);
         return finalize();
     }
-    type operator()(const void *begin, const void *end) CRCXX_NOEXCEPT {
+    value_type operator()(const void *begin, const void *end) CRCXX_NOEXCEPT {
         return checksum(begin, end);
     }
 
     void update(const void *data, size_t size) CRCXX_NOEXCEPT {
         update(data, reinterpret_cast<const uint8_t *>(data) + size);
     }
-    type checksum(const void *data, size_t size) CRCXX_NOEXCEPT {
+    value_type checksum(const void *data, size_t size) CRCXX_NOEXCEPT {
         update(data, size);
         return finalize();
     }
-    type operator()(const void *data, size_t size) CRCXX_NOEXCEPT {
+    value_type operator()(const void *data, size_t size) CRCXX_NOEXCEPT {
         return checksum(data, size);
     }
 
 private:
-    static CRCXX_CONSTEXPR type fit_value(type value) CRCXX_NOEXCEPT {
+    static CRCXX_CONSTEXPR value_type fit_value(value_type value) CRCXX_NOEXCEPT {
         return refin ? detail::rev(value) >> (real_width - width) : value << (real_width - width);
     }
 
-    static CRCXX_CONSTEXPR_14 type crc(type value) CRCXX_NOEXCEPT {
+    static CRCXX_CONSTEXPR_14 value_type crc(value_type value) CRCXX_NOEXCEPT {
         int i = 8;
 
         CRCXX_IF_CONSTEXPR(refin) {
@@ -125,8 +125,8 @@ private:
         return value;
     }
 
-    void table_init(void) CRCXX_NOEXCEPT {
-        type i = 255;
+    void table_init() CRCXX_NOEXCEPT {
+        value_type i = 255;
         while(i) {
             m_table[i] = crc(i);
             --i;
@@ -134,8 +134,8 @@ private:
         m_table[i] = crc(i);
     }
 
-    type m_value;
-    type *m_table;
+    value_type m_value;
+    value_type *m_table;
 };
 
 } // namespace crc

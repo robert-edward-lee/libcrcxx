@@ -1,7 +1,7 @@
 #ifndef HXX_CRCXX_DETAIL_TYPES
 #define HXX_CRCXX_DETAIL_TYPES
 
-#include <cstddef> /* size_t */
+#include <cstddef> // size_t
 
 #include "crcxx/detail/defines.hxx"
 #if CRCXX_STDCXX_VERSION_CHECK(201103)
@@ -44,8 +44,8 @@ typedef unsigned long long u64;
 #if CRCXX_HAS_GNUC_INT128
 #define CRCXX_HAS_128BIT_ALGO 1
 typedef __uint128_t u128;
-#define CRCXX_UINT128_C(w1, w2, w3, w4)                                                                                \
-    (static_cast<u128>(CRCXX_CONCAT(w1, UL)) << 96 | static_cast<u128>(CRCXX_CONCAT(w2, UL)) << 64                     \
+#define CRCXX_UINT128_C(w1, w2, w3, w4) \
+    (static_cast<u128>(CRCXX_CONCAT(w1, UL)) << 96 | static_cast<u128>(CRCXX_CONCAT(w2, UL)) << 64 \
      | static_cast<u128>(CRCXX_CONCAT(w3, UL)) << 32 | CRCXX_CONCAT(w4, UL))
 #else
 #define CRCXX_HAS_128BIT_ALGO 0

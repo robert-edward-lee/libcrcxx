@@ -3,7 +3,7 @@
 int errors = 0;
 int passed = 0;
 
-int main(void) {
+int main() {
     crc_test(CRC3_GSM, 8);
     crc_test(CRC3_ROHC, 8);
     crc_test(CRC4_G_704, 8);
