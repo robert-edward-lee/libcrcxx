@@ -24,7 +24,7 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-//                           Language Feature-Test                            */
+//                           Language Feature-Test                            //
 ////////////////////////////////////////////////////////////////////////////////
 #if CRCXX_STDCXX_VERSION_CHECK(201103)
 #define CRCXX_NOEXCEPT noexcept
@@ -44,6 +44,12 @@
 #define CRCXX_CONSTEXPR
 #define CRCXX_CONSTEXPR_14
 #define CRCXX_CONST_OR_CONSTEXPR const
+#endif
+
+#if CRCXX_STDCXX_VERSION_CHECK(201103)
+#define CRCXX_DELETED = delete
+#else
+#define CRCXX_DELETED
 #endif
 
 #if CRCXX_STDCXX_VERSION_CHECK(201606)

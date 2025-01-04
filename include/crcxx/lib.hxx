@@ -20,6 +20,13 @@ class Crc {
     CRCXX_STATIC_ASSERT(Width, "Width can not be a 0");
     CRCXX_STATIC_ASSERT((Width <= 8 * sizeof(ValueType)), "Crc Width can not exceed the bitwidth of ValueType");
 
+    Crc(const Crc &) CRCXX_DELETED;
+    Crc &operator=(const Crc &) CRCXX_DELETED;
+#if CRCXX_STDCXX_VERSION_CHECK(201103)
+    Crc(Crc &&) CRCXX_DELETED;
+    Crc &operator=(Crc &&) CRCXX_DELETED;
+#endif
+
 public:
     typedef ValueType value_type;
 
@@ -32,12 +39,8 @@ public:
     static CRCXX_CONST_OR_CONSTEXPR value_type xorout = XorOut;
     static CRCXX_CONST_OR_CONSTEXPR value_type check = Check;
 
-    Crc(): m_value(fit_value(init)), m_table(new value_type[256]) {
+    Crc() CRCXX_NOEXCEPT: m_value(fit_value(init)) {
         table_init();
-    }
-
-    ~Crc() CRCXX_NOEXCEPT {
-        delete[] m_table;
     }
 
     CRCXX_CONSTEXPR_14 value_type finalize() CRCXX_NOEXCEPT {
@@ -107,7 +110,6 @@ private:
     static CRCXX_CONSTEXPR value_type fit_value(value_type value) CRCXX_NOEXCEPT {
         return refin ? detail::rev(value) >> (real_width - width) : value << (real_width - width);
     }
-
     static CRCXX_CONSTEXPR_14 value_type crc(value_type value) CRCXX_NOEXCEPT {
         int i = 8;
 
@@ -124,18 +126,15 @@ private:
 
         return value;
     }
-
     void table_init() CRCXX_NOEXCEPT {
-        value_type i = 255;
-        while(i) {
+        u8 i = 255;
+        do {
             m_table[i] = crc(i);
-            --i;
-        }
-        m_table[i] = crc(i);
+        } while(--i != 255);
     }
 
     value_type m_value;
-    value_type *m_table;
+    value_type m_table[256];
 };
 
 } // namespace crc
