@@ -67,11 +67,9 @@ endif
 #                                  ОБЩИЕ ЦЕЛИ                                  #
 ################################################################################
 ifeq ($(TERM),)
-$(info "shell Windows cmd.exe")
 MKDIR = cmd /E:ON /C mkdir
 override BUILD_DIR:=$(subst /,\,$(BUILD_DIR))
 else
-$(info "shell Bash")
 MKDIR = mkdir -p
 endif
 
