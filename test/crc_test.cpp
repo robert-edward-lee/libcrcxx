@@ -1,9 +1,9 @@
-#include "crcxx_test.hxx"
+#include "crc_test.hpp"
 
 int errors = 0;
 int passed = 0;
 
-int main(void) {
+int main() {
     crc_test(CRC3_GSM, 8);
     crc_test(CRC3_ROHC, 8);
     crc_test(CRC4_G_704, 8);
@@ -112,11 +112,12 @@ int main(void) {
     crc_test(CRC64_ECMA_182, 64);
     crc_test(CRC64_GO_ISO, 64);
     crc_test(CRC64_MS, 64);
+    crc_test(CRC64_NVME, 64);
     crc_test(CRC64_REDIS, 64);
     crc_test(CRC64_WE, 64);
     crc_test(CRC64_XZ, 64);
 
-#if CRCXX_HAS_128BIT_ALGO
+#if CRC_HAS_128BIT_ALGO
     crc_test(CRC82_DARC, 128);
 #endif
 

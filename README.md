@@ -11,8 +11,8 @@
 ### Пример использования
 #### Вычисление суммы для блока памяти
 ```cxx
-#include <crcxx/catalog>
-#include <crcxx/lib>
+#include <crc/catalog>
+#include <crc/lib>
 
 char data[] = "123456789";
 crc::CRC16_ARC crc;
@@ -30,8 +30,8 @@ value = crc(data, &data[9]);
 
 #### Итеративного вычисления
 ```cxx
-#include <crcxx/catalog>
-#include <crcxx/lib>
+#include <crc/catalog>
+#include <crc/lib>
 
 char data[] = "123456789";
 crc::CRC16_ARC crc;
@@ -45,7 +45,7 @@ value = crc.finalize();
 
 #### Использование нестандартного алгоритма
 ```cxx
-#include <crcxx/lib>
+#include <crc/lib>
 
 char data[] = "123456789";
 crc::Crc<ValueType, Width, Poly, Init, RefIn, RefOut, XorOut, Check> crc;

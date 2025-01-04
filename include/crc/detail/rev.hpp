@@ -1,12 +1,12 @@
-#ifndef HXX_CRCXX_DETAIL_REV
-#define HXX_CRCXX_DETAIL_REV
+#ifndef HPP_CRC_DETAIL_REV
+#define HPP_CRC_DETAIL_REV
 
-#include "crcxx/detail/defines.hxx"
-#include "crcxx/detail/types.hxx"
+#include "crc/detail/defines.hpp"
+#include "crc/detail/types.hpp"
 
 namespace crc { namespace detail {
-static CRCXX_CONSTEXPR_14 u8 rev(u8 x) CRCXX_NOEXCEPT {
-#if CRCXX_HAS_BUILTIN_BITREVERSE
+static CRC_CONSTEXPR_14 u8 rev(u8 x) CRC_NOEXCEPT {
+#if CRC_HAS_BUILTIN_BITREVERSE
     return __builtin_bitreverse8(x);
 #else
     x = ((x & 0x55) << 1) | ((x & 0xAA) >> 1);
@@ -14,8 +14,8 @@ static CRCXX_CONSTEXPR_14 u8 rev(u8 x) CRCXX_NOEXCEPT {
     return x << 4 | x >> 4;
 #endif
 }
-static CRCXX_CONSTEXPR_14 u16 rev(u16 x) CRCXX_NOEXCEPT {
-#if CRCXX_HAS_BUILTIN_BITREVERSE
+static CRC_CONSTEXPR_14 u16 rev(u16 x) CRC_NOEXCEPT {
+#if CRC_HAS_BUILTIN_BITREVERSE
     return __builtin_bitreverse16(x);
 #else
     x = ((x & 0x5555) << 1) | ((x & 0xAAAA) >> 1);
@@ -24,8 +24,8 @@ static CRCXX_CONSTEXPR_14 u16 rev(u16 x) CRCXX_NOEXCEPT {
     return x << 8 | x >> 8;
 #endif
 }
-static CRCXX_CONSTEXPR_14 u32 rev(u32 x) CRCXX_NOEXCEPT {
-#if CRCXX_HAS_BUILTIN_BITREVERSE
+static CRC_CONSTEXPR_14 u32 rev(u32 x) CRC_NOEXCEPT {
+#if CRC_HAS_BUILTIN_BITREVERSE
     return __builtin_bitreverse32(x);
 #else
     x = ((x & 0x55555555) << 1) | ((x & 0xAAAAAAAA) >> 1);
@@ -35,8 +35,8 @@ static CRCXX_CONSTEXPR_14 u32 rev(u32 x) CRCXX_NOEXCEPT {
     return x << 16 | x >> 16;
 #endif
 }
-static CRCXX_CONSTEXPR_14 u64 rev(u64 x) CRCXX_NOEXCEPT {
-#if CRCXX_HAS_BUILTIN_BITREVERSE
+static CRC_CONSTEXPR_14 u64 rev(u64 x) CRC_NOEXCEPT {
+#if CRC_HAS_BUILTIN_BITREVERSE
     return __builtin_bitreverse64(x);
 #else
     x = ((x & ((u64)0x55555555 << 32 | 0x55555555)) << 1) | ((x & ((u64)0xAAAAAAAA << 32 | 0xAAAAAAAA)) >> 1);
@@ -48,12 +48,12 @@ static CRCXX_CONSTEXPR_14 u64 rev(u64 x) CRCXX_NOEXCEPT {
 #endif
 }
 
-#if CRCXX_HAS_128BIT_ALGO
-static CRCXX_CONSTEXPR_14 u128 rev(u128 x) CRCXX_NOEXCEPT {
+#if CRC_HAS_128BIT_ALGO
+static CRC_CONSTEXPR_14 u128 rev(u128 x) CRC_NOEXCEPT {
     return static_cast<u128>(rev(static_cast<u64>(x))) << 64 | rev(static_cast<u64>(x >> 64));
 }
 #endif
 
 }} // namespace crc::detail
 
-#endif // HXX_CRCXX_DETAIL_REV
+#endif // HPP_CRC_DETAIL_REV

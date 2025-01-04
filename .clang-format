@@ -7,7 +7,7 @@ IndentWidth: 4
 AccessModifierOffset: -4
 IndentCaseLabels: true
 # alignment settings
-AlignEscapedNewlines: Right
+AlignEscapedNewlines: DontAlign
 AlignOperands: AlignAfterOperator
 AlignTrailingComments: Never
 # break lines settings
@@ -32,5 +32,5 @@ SpaceInEmptyBlock: false
 # sort
 SortUsingDeclarations: Never
 # macro aliases
-IfMacros: ['CRCXX_IF_CONSTEXPR']
+IfMacros: ['CRC_IF_CONSTEXPR']
 ...
