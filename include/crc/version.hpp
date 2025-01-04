@@ -1,0 +1,9 @@
+#ifndef HPP_CRC_VERSION
+#define HPP_CRC_VERSION
+
+#define CRC_VERSION_MAJOR 1
+#define CRC_VERSION_MINOR 0
+#define CRC_VERSION_PATCH 0
+#define CRC_VERSION_STRING "1.0.0"
+
+#endif // HPP_CRC_VERSION

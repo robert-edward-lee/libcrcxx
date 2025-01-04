@@ -83,7 +83,7 @@ public:
             return;
         }
 
-        for(const uint8_t *byte = reinterpret_cast<const uint8_t *>(begin); byte != end; ++byte) {
+        for(const u8 *byte = reinterpret_cast<const u8 *>(begin); byte != end; ++byte) {
             update(*byte);
         }
     }
@@ -96,7 +96,7 @@ public:
     }
 
     void update(const void *data, size_t size) CRC_NOEXCEPT {
-        update(data, reinterpret_cast<const uint8_t *>(data) + size);
+        update(data, reinterpret_cast<const u8 *>(data) + size);
     }
     value_type checksum(const void *data, size_t size) CRC_NOEXCEPT {
         update(data, size);
