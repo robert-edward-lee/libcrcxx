@@ -147,6 +147,7 @@ typedef Crc<u32, 32,         0x1EDC6F41,         0xFFFFFFFF,  true,  true,      
 typedef CRC32_ISCSI                                                                                                CRC32_BASE91_C;
 typedef CRC32_ISCSI                                                                                                CRC32_CASTAGNOLI;
 typedef CRC32_ISCSI                                                                                                CRC32_INTERLAKEN;
+typedef CRC32_ISCSI                                                                                                CRC32_NVME;
 typedef Crc<u32, 32,         0x04C11DB7,         0xFFFFFFFF,  true,  true,         0xFFFFFFFF,         0xCBF43926> CRC32_ISO_HDLC;
 typedef CRC32_ISO_HDLC                                                                                             CRC32_ADCCP;
 typedef CRC32_ISO_HDLC                                                                                             CRC32_V_42;
@@ -163,6 +164,8 @@ typedef Crc<u64, 64, CRCXX_UINT64_C(0x00000000, 0x0000001B), CRCXX_UINT64_C(0xFF
                      CRCXX_UINT64_C(0xFFFFFFFF, 0xFFFFFFFF), CRCXX_UINT64_C(0xB90956C7, 0x75A41001)>               CRC64_GO_ISO;
 typedef Crc<u64, 64, CRCXX_UINT64_C(0x259C84CB, 0xA6426349), CRCXX_UINT64_C(0xFFFFFFFF, 0xFFFFFFFF), true, true,
                      CRCXX_UINT64_C(0x00000000, 0x00000000), CRCXX_UINT64_C(0x75D4B74F, 0x024ECEEA)>               CRC64_MS;
+typedef Crc<u64, 64, CRCXX_UINT64_C(0xAD93D235, 0x94C93659), CRCXX_UINT64_C(0xFFFFFFFF, 0xFFFFFFFF), true, true,
+                     CRCXX_UINT64_C(0xFFFFFFFF, 0xFFFFFFFF), CRCXX_UINT64_C(0xAE8B1486, 0x0A799888)>               CRC64_NVME;
 typedef Crc<u64, 64, CRCXX_UINT64_C(0xAD93D235, 0x94C935A9), CRCXX_UINT64_C(0x00000000, 0x00000000), true, true,
                      CRCXX_UINT64_C(0x00000000, 0x00000000), CRCXX_UINT64_C(0xE9C6D914, 0xC4B8D9CA)>               CRC64_REDIS;
 typedef Crc<u64, 64, CRCXX_UINT64_C(0x42F0E1EB, 0xA9EA3693), CRCXX_UINT64_C(0xFFFFFFFF, 0xFFFFFFFF), false, false,
