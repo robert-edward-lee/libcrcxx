@@ -1,4 +1,4 @@
-#include "crcxx_test.hxx"
+#include "crc_test.hpp"
 
 int errors = 0;
 int passed = 0;
@@ -117,7 +117,7 @@ int main() {
     crc_test(CRC64_WE, 64);
     crc_test(CRC64_XZ, 64);
 
-#if CRCXX_HAS_128BIT_ALGO
+#if CRC_HAS_128BIT_ALGO
     crc_test(CRC82_DARC, 128);
 #endif
 

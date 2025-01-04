@@ -1,15 +1,15 @@
-#ifndef HXX_CXX_DETAIL_TRAITS
-#define HXX_CXX_DETAIL_TRAITS
+#ifndef HPP_CXX_DETAIL_TRAITS
+#define HPP_CXX_DETAIL_TRAITS
 
-#include "crcxx/detail/defines.hxx"
-#if CRCXX_STDCXX_VERSION_CHECK(201103)
+#include "crc/detail/defines.hpp"
+#if CRC_STDCXX_VERSION_CHECK(201103)
 #include <type_traits>
 #endif
 
-#include "crcxx/detail/types.hxx"
+#include "crc/detail/types.hpp"
 
 namespace crc { namespace detail {
-#if CRCXX_STDCXX_VERSION_CHECK(201103)
+#if CRC_STDCXX_VERSION_CHECK(201103)
 using std::true_type;
 using std::false_type;
 using std::enable_if;
@@ -55,10 +55,10 @@ template<> struct is_valid_crc_type_helper<u8>: true_type {};
 template<> struct is_valid_crc_type_helper<u16>: true_type {};
 template<> struct is_valid_crc_type_helper<u32>: true_type {};
 template<> struct is_valid_crc_type_helper<u64>: true_type {};
-#if CRCXX_HAS_128BIT_ALGO
+#if CRC_HAS_128BIT_ALGO
 template<> struct is_valid_crc_type_helper<u128>: true_type {};
 #endif
 template<typename T> struct is_valid_crc_type: is_valid_crc_type_helper<typename remove_cv<T>::type> {};
 }} // namespace crc::detail
 
-#endif // HXX_CXX_DETAIL_TRAITS
+#endif // HPP_CXX_DETAIL_TRAITS

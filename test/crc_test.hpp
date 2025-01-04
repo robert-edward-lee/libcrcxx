@@ -1,8 +1,8 @@
-#ifndef HXX_CRC_TEST
-#define HXX_CRC_TEST
+#ifndef HPP_CRC_TEST
+#define HPP_CRC_TEST
 
-#include <crcxx/catalog>
-#include <crcxx/lib>
+#include <crc/catalog>
+#include <crc/lib>
 #include <stdio.h>
 #include <string>
 
@@ -33,4 +33,4 @@ template<typename T> inline void print_hex(T a) {
         } \
     }
 
-#endif // HXX_CRC_TEST
+#endif // HPP_CRC_TEST
