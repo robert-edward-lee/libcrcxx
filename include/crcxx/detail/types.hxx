@@ -1,6 +1,7 @@
 #ifndef HXX_CRCXX_DETAIL_TYPES
 #define HXX_CRCXX_DETAIL_TYPES
 
+#include <climits>
 #include <cstddef> // size_t
 
 #include "crcxx/detail/defines.hxx"
@@ -16,26 +17,46 @@ typedef std::uint8_t u8;
 typedef std::uint16_t u16;
 typedef std::uint32_t u32;
 typedef std::uint64_t u64;
-#else // CRCXX_STDCXX_VERSION_CHECK(201103)
-#if defined(__GNUC__)
+#elif defined(__GNUC__)
 typedef unsigned int u8 __attribute__((mode(QI)));
 typedef unsigned int u16 __attribute__((mode(HI)));
 typedef unsigned int u32 __attribute__((mode(SI)));
 typedef unsigned int u64 __attribute__((mode(DI)));
-#elif defined(_MSC_VER)
+#elif CRC_MSVC_VERSION_CHECK(1300)
 typedef unsigned __int8 u8;
 typedef unsigned __int16 u16;
 typedef unsigned __int32 u32;
 typedef unsigned __int64 u64;
 #else
+#if UCHAR_MAX == 0xFFU
 typedef unsigned char u8;
+#else
+#error cannot find 8-bit integer type
+#endif
+#if USHRT_MAX == 0xFFFFU
 typedef unsigned short u16;
+#elif UINT_MAX == 0xFFFFU
+typedef unsigned int u16;
+#else
+#error cannot find 16-bit integer type
+#endif
+#if USHRT_MAX == 0xFFFFFFFFUL
+typedef unsigned short u32;
+#elif UINT_MAX == 0xFFFFFFFFUL
 typedef unsigned int u32;
+#elif ULONG_MAX == 0xFFFFFFFFUL
+typedef unsigned long u32;
+#else
+#error cannot find 32-bit integer type
+#endif
 #if defined(_WIN32) || defined(_WIN64)
 typedef unsigned __int64 u64;
-#else
+#elif defined(__UINT64_TYPE__)
+typedef __UINT64_TYPE__ uint64_t;
+#elif defined(_LONG_LONG)
 typedef unsigned long long u64;
-#endif
+#else
+#error cannot find 64-bit integer type
 #endif
 #endif // CRCXX_STDCXX_VERSION_CHECK(201103)
 
