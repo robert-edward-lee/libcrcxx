@@ -26,24 +26,24 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                           Language Feature-Test                            //
 ////////////////////////////////////////////////////////////////////////////////
-#if CRC_STDCXX_VERSION_CHECK(201103)
-#define CRC_NOEXCEPT noexcept
-#else
-#define CRC_NOEXCEPT throw()
-#endif
-
 #if defined(__cpp_constexpr)
+#if __cpp_constexpr >= 201907
+#define CRC_CONST_OR_CONSTEXPR constexpr
 #define CRC_CONSTEXPR constexpr
-#if __cpp_constexpr >= 201304
+#define CRC_CONSTEXPR_14 constexpr
+#elif __cpp_constexpr >= 201304
+#define CRC_CONST_OR_CONSTEXPR constexpr
+#define CRC_CONSTEXPR constexpr
 #define CRC_CONSTEXPR_14 constexpr
 #else
-#define CRC_CONSTEXPR_14
-#endif
 #define CRC_CONST_OR_CONSTEXPR constexpr
+#define CRC_CONSTEXPR constexpr
+#define CRC_CONSTEXPR_14 inline
+#endif
 #else
-#define CRC_CONSTEXPR
-#define CRC_CONSTEXPR_14
 #define CRC_CONST_OR_CONSTEXPR const
+#define CRC_CONSTEXPR inline
+#define CRC_CONSTEXPR_14 inline
 #endif
 
 #if CRC_STDCXX_VERSION_CHECK(201103)
@@ -56,6 +56,12 @@
 #define CRC_IF_CONSTEXPR if constexpr
 #else
 #define CRC_IF_CONSTEXPR if
+#endif
+
+#if CRC_STDCXX_VERSION_CHECK(201103)
+#define CRC_NOEXCEPT noexcept
+#else
+#define CRC_NOEXCEPT throw()
 #endif
 
 #if CRC_STDCXX_VERSION_CHECK(200410)

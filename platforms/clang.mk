@@ -11,5 +11,5 @@ WARN_FLAGS = -Wall -Wextra -pedantic
 EXTRA_FLAGS +=
 
 test: version $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) test/crc_test.cpp -o $(BUILD_DIR)/$@
-	$(BUILD_DIR)/$@
+	@$(CXX) $(CXXFLAGS) test/crc_test.cpp -o $(BUILD_DIR)/$@
+	@$(BUILD_DIR)/$@

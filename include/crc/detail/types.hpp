@@ -52,7 +52,7 @@ typedef unsigned long u32;
 #if defined(_WIN32) || defined(_WIN64)
 typedef unsigned __int64 u64;
 #elif defined(__UINT64_TYPE__)
-typedef __UINT64_TYPE__ uint64_t;
+typedef __UINT64_TYPE__ u64;
 #elif defined(_LONG_LONG)
 typedef unsigned long long u64;
 #else

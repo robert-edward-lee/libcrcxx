@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string>
 
-std::string check = "123456789";
+const char check[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 template<typename T> inline void print_hex(T a) {
     const crc::u8 *as_u8 = reinterpret_cast<const crc::u8 *>(&a);
@@ -19,7 +19,7 @@ template<typename T> inline void print_hex(T a) {
 #define crc_test(__algo, __) \
     { \
         crc::__algo crc; \
-        crc::__algo::value_type value = crc(check.c_str(), check.size()); \
+        crc::__algo::value_type value = crc(check); \
         if(crc::__algo::check != value) { \
             printf("Invalid CRC check for " #__algo ": "); \
             print_hex(value); \

@@ -69,16 +69,18 @@ public:
         }
     }
     template<typename T>
-    typename detail::enable_if<detail::is_byte<T>::value, value_type>::type checksum(T byte) CRC_NOEXCEPT {
+    CRC_CONSTEXPR_14 typename detail::enable_if<detail::is_byte<T>::value, value_type>::type
+    checksum(T byte) CRC_NOEXCEPT {
         update(byte);
         return finalize();
     }
     template<typename T>
-    typename detail::enable_if<detail::is_byte<T>::value, value_type>::type operator()(T byte) CRC_NOEXCEPT {
+    CRC_CONSTEXPR_14 typename detail::enable_if<detail::is_byte<T>::value, value_type>::type
+    operator()(T byte) CRC_NOEXCEPT {
         return checksum(byte);
     }
 
-    void update(const void *begin, const void *end) CRC_NOEXCEPT {
+    CRC_CONSTEXPR_14 void update(const void *begin, const void *end) CRC_NOEXCEPT {
         if(!begin) {
             return;
         }
@@ -87,23 +89,51 @@ public:
             update(*byte);
         }
     }
-    value_type checksum(const void *begin, const void *end) CRC_NOEXCEPT {
+    CRC_CONSTEXPR_14 value_type checksum(const void *begin, const void *end) CRC_NOEXCEPT {
         update(begin, end);
         return finalize();
     }
-    value_type operator()(const void *begin, const void *end) CRC_NOEXCEPT {
+    CRC_CONSTEXPR_14 value_type operator()(const void *begin, const void *end) CRC_NOEXCEPT {
         return checksum(begin, end);
     }
 
-    void update(const void *data, size_t size) CRC_NOEXCEPT {
+    CRC_CONSTEXPR_14 void update(const void *data, size_t size) CRC_NOEXCEPT {
         update(data, reinterpret_cast<const u8 *>(data) + size);
     }
-    value_type checksum(const void *data, size_t size) CRC_NOEXCEPT {
+    CRC_CONSTEXPR_14 value_type checksum(const void *data, size_t size) CRC_NOEXCEPT {
         update(data, size);
         return finalize();
     }
-    value_type operator()(const void *data, size_t size) CRC_NOEXCEPT {
+    CRC_CONSTEXPR_14 value_type operator()(const void *data, size_t size) CRC_NOEXCEPT {
         return checksum(data, size);
+    }
+
+    template<typename T, size_t Size> CRC_CONSTEXPR_14 void update(const T (&data)[Size]) CRC_NOEXCEPT {
+        CRC_CONST_OR_CONSTEXPR size_t RAW_SIZE = Size * sizeof(T);
+        CRC_CONST_OR_CONSTEXPR size_t BLK_SIZE = 4;
+        CRC_CONST_OR_CONSTEXPR size_t BLKS = RAW_SIZE / BLK_SIZE;
+        CRC_CONST_OR_CONSTEXPR size_t RESIDUE = RAW_SIZE % BLK_SIZE;
+
+        const u8 *as_u8 = reinterpret_cast<const u8 *>(&data);
+        for(size_t i = 0; i != BLKS; ++i) {
+            update(as_u8[BLK_SIZE * i + 0]);
+            update(as_u8[BLK_SIZE * i + 1]);
+            update(as_u8[BLK_SIZE * i + 2]);
+            update(as_u8[BLK_SIZE * i + 3]);
+        }
+
+        CRC_IF_CONSTEXPR(RESIDUE != 0) {
+            for(size_t i = BLKS * BLK_SIZE; i != RAW_SIZE; ++i) {
+                update(as_u8[i]);
+            }
+        }
+    }
+    template<typename T, size_t Size> CRC_CONSTEXPR_14 value_type checksum(const T (&data)[Size]) CRC_NOEXCEPT {
+        update(data);
+        return finalize();
+    }
+    template<typename T, size_t Size> CRC_CONSTEXPR_14 value_type operator()(const T (&data)[Size]) CRC_NOEXCEPT {
+        return checksum(data);
     }
 
 private:
