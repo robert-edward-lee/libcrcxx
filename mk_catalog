@@ -231,7 +231,7 @@ template<typename ValueType, size_t Width, ValueType Poly, ValueType Init, bool 
 
 END = r"""} // namespace crc
 // clang-format on
-
+#include "crc/catalog_ex.hpp"
 #endif // HPP_CRC_CATALOG
 """
 

@@ -183,5 +183,5 @@ typedef Crc<u128,  82, CRC_UINT128_C(0x00000000, 0x0000308C, 0x01110114, 0x01440
 #endif
 } // namespace crc
 // clang-format on
-
+#include "crc/catalog_ex.hpp"
 #endif // HPP_CRC_CATALOG
