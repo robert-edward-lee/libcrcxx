@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <string>
 
-const char check[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+static const char check[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-template<typename T> inline void print_hex(T a) {
+template<typename T> static inline void print_hex(T a) {
     const crc::u8 *as_u8 = reinterpret_cast<const crc::u8 *>(&a);
     printf("0x");
     for(int i = sizeof(a) - 1; i >= 0; i--) {
@@ -16,8 +16,8 @@ template<typename T> inline void print_hex(T a) {
     }
 }
 
-#define crc_test(__algo, __) \
-    { \
+#define crc_test(__algo) \
+    do { \
         crc::__algo crc; \
         crc::__algo::value_type value = crc(check); \
         if(crc::__algo::check != value) { \
@@ -31,6 +31,6 @@ template<typename T> inline void print_hex(T a) {
             printf(#__algo " passed\n"); \
             passed++; \
         } \
-    }
+    } while(0)
 
 #endif // HPP_CRC_TEST

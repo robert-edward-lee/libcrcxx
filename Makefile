@@ -4,7 +4,7 @@
 PROJECT_NAME = crc
 PROJECT_VERSION_MAJOR = 1
 PROJECT_VERSION_MINOR = 0
-PROJECT_VERSION_PATCH = 1
+PROJECT_VERSION_PATCH = 2
 PROJECT_VERSION = $(PROJECT_VERSION_MAJOR).$(PROJECT_VERSION_MINOR).$(PROJECT_VERSION_PATCH)
 
 ################################################################################
@@ -85,7 +85,7 @@ clean:
 		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.o,$(dir))) \
 		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.obj,$(dir))) \
 		$(foreach dir,$(WORK_DIRS),$(addsuffix /*.tds,$(dir))) \
-		$(BUILD_DIR)/*
+		build/*/*
 
 format:
 	@clang-format \
