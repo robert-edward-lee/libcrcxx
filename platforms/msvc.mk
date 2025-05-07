@@ -21,5 +21,9 @@ WARN_FLAGS = /W4
 EXTRA_FLAGS += /nologo
 
 test: version $(BUILD_DIR)
-	@$(CXX) $(CXXFLAGS) test/crc_test.cpp /Fe:$(BUILD_DIR)/$@
+	@$(CXX) $(STDCXX_FLAGS) $(CXXFLAGS) test/crc_test.cpp /Fe:$(BUILD_DIR)/$@
+	@$(BUILD_DIR)/$@
+
+bench: version $(BUILD_DIR)
+	@$(CXX) /Ipicobench/include $(CXXFLAGS) bench/crc_bench.cpp /Fe:$(BUILD_DIR)/$@
 	@$(BUILD_DIR)/$@

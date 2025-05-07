@@ -173,6 +173,9 @@ class Algo(object):
         ret += '|\n'
         return ret
 
+    def str_bench(self) -> str:
+        return f'crc_bench({self.name});\n'
+
 
 ################################################################################
 #                              Create object list                              #
@@ -285,3 +288,28 @@ with open('test/crc_test.cpp', 'w+', encoding='utf-8', newline='\n') as f:
         f.write('#endif\n')
 
     f.write(TEST_END)
+
+################################################################################
+#                             Create crc_bench.cpp                             #
+################################################################################
+BENCH_BEGIN = r"""#include "crc_bench.h"
+
+"""
+
+BENCH_END = r""""""
+
+flag128 = False
+with open('bench/crc_bench.cpp', 'w+', encoding='utf-8', newline='\n') as f:
+    f.write(BENCH_BEGIN)
+
+    for algo in test_algos:
+        if algo.actual_width == 128 and not flag128:
+            flag128 = True
+            f.write('#if CRC_HAS_128BIT_ALGO\n')
+
+        f.write(algo.str_bench())
+
+    if flag128:
+        f.write('#endif\n')
+
+    f.write(BENCH_END)

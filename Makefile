@@ -14,12 +14,13 @@ BUILD_DIR = build\$(TOOLCHAIN_PREFIX)$(CXX)
 SOURCE_DIRS = src
 INCLUDE_DIRS = include src
 TEST_DIR = test
+BENCH_DIR = bench
 
-WORK_DIRS = $(sort . $(TEST_DIR) \
+WORK_DIRS = $(sort . $(TEST_DIR) $(BENCH_DIR) \
 			$(dir $(wildcard include/crc/*/)) \
 			$(dir $(wildcard include/crc/*/*/)))
 
-VPATH = $(TEST_DIR):$(BUILD_DIR):$(subst $() $(),:,$(SOURCE_DIRS)):$(subst $() $(),:,$(INCLUDE_DIRS))
+VPATH = $(TEST_DIR):$(BENCH_DIR):$(BUILD_DIR):$(subst $() $(),:,$(SOURCE_DIRS)):$(subst $() $(),:,$(INCLUDE_DIRS))
 SOURCES = $(wildcard $(SOURCE_DIRS)/*.cpp)
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(patsubst %.cpp,%.o,$(SOURCES))))
 DEPENDS = $(patsubst %.o,%.d,$(OBJECTS))
@@ -31,14 +32,12 @@ DEPENDS = $(patsubst %.o,%.d,$(OBJECTS))
 TOOLCHAIN_PREFIX =
 CC = gcc
 CFLAGS = \
-	$(STDC_FLAGS) \
 	$(INC_FLAGS) \
 	$(DEF_FLAGS) \
 	$(OPT_FLAGS) \
 	$(WARN_FLAGS) \
 	$(EXTRA_FLAGS)
 CXXFLAGS = \
-	$(STDCXX_FLAGS) \
 	$(INC_FLAGS) \
 	$(DEF_FLAGS) \
 	$(OPT_FLAGS) \
